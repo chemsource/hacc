@@ -102,7 +102,7 @@
         /* 主要内容布局 */
         .main-content {
             display: grid;
-            grid-template-columns: 300px 1fr;
+            grid-template-columns: 1fr; /* 移除侧边栏列 */
             gap: 30px;
         }
         
@@ -207,6 +207,7 @@
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
             padding: 35px;
+            width: 100%; /* 确保占据全部宽度 */
         }
         
         .notes-header {
@@ -586,29 +587,77 @@
             margin-right: 0px;
             margin-left: 0px;
         }
+
+        /* 比赛状态样式 */
+        #contest-status {
+            background: #f0f5ff;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        #contest-status p {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        #contest-status i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+
+        #countdown {
+            font-weight: bold;
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+        }
+
+        /* 禁用链接样式 */
+        .disabled-link {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background: #e9ecef !important;
+            pointer-events: none; /* 阻止所有鼠标事件 */
+        }
+
+        .disabled-link:hover {
+            transform: none !important;
+            border-left: 4px solid transparent !important;
+            background: #e9ecef !important;
+        }
+
+        /* 比赛链接全宽样式 */
+        .full-width-link {
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .disabled-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .disabled-link .disabled-overlay {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
-    <!-- 登录模态框 - 初始添加active类 -->
-<!--     <div class="login-modal" id="loginModal">
-        <div class="login-container">
-            <div class="login-header">
-                <h2><i class="fas fa-lock"></i> 访问授权</h2>
-                <p>请输入邀请码以访问笔记本内容</p>
-            </div>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="inviteCode">邀请码</label>
-                    <input type="text" id="inviteCode" class="form-control" placeholder="输入您的邀请码" required>
-                </div>
-                <button type="submit" class="btn">验证邀请码</button>
-                <div class="error-message" id="errorMessage">
-                    <i class="fas fa-exclamation-circle"></i> 邀请码无效，请重试
-                </div>
-            </form>
-        </div>
-    </div> -->
-    
     <div class="container">
         <header>
             <h1><i class="fas fa-book-open"></i> H.A.C.C比赛</h1>
@@ -624,7 +673,22 @@
                 <div class="note-content">
                     <h2><i class="fab fa-a301"></i> H.A.C.C 2025.7 Round 1 A组</h2>
                     <div class="date">2025年7月26日</div>
-                    <a href="https://docs.qq.com/doc/p/c62489d887c6ed67b1f7a4279d843514d48285f8">前往题目地址</a>
+                    
+                    <!-- 添加比赛状态提示 -->
+                    <div id="contest-status">
+                        <p><i class="fas fa-clock"></i> 比赛将于 <strong>18:00:00</strong> 开始</p>
+                        <p>倒计时: <span id="countdown">00:00:00</span></p>
+                    </div>
+                    
+                    <!-- 修改链接添加ID和点击事件 -->
+                    <a href="https://docs.qq.com/doc/p/c62489d887c6ed67b1f7a4279d843514d48285f8" 
+                    id="contest-link" 
+                    class="full-width-link disabled-link" 
+                    onclick="return checkContestTime(event)">
+                        <i class="fas fa-external-link-alt"></i> 
+                        <span>前往题目地址</span>
+                        <span class="disabled-overlay">比赛尚未开始</span>
+                    </a>
                 </div>
             </main>
         </div>
@@ -636,94 +700,55 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', function() {
-            const loginModal = document.getElementById('loginModal');
-            const container = document.querySelector('.container'); // 改为选择.container类
-            const loginForm = document.getElementById('loginForm');
-            const inviteCodeInput = document.getElementById('inviteCode');
-            const errorMessage = document.getElementById('errorMessage');
+            // 设置比赛开始时间（2025年7月26日18:00:00）
+            const contestStartTime = new Date('2025-07-26T18:00:00');
+            const contestLink = document.getElementById('contest-link');
+            const countdownElement = document.getElementById('countdown');
             
-            // 检查是否已登录
-            const isLoggedIn = localStorage.getItem('notebookLoggedIn') === 'true';
-            
-            // 初始化显示状态
-            if (isLoggedIn) {
-                loginModal.classList.remove('active');
-                if(container) container.classList.remove('blur-content');
+            // 检查比赛时间函数
+            function checkContestTime(event) {
+                const now = new Date();
+                if (now < contestStartTime) {
+                    alert("比赛尚未开始，请等待！");
+                    event.preventDefault(); // 阻止链接跳转
+                    return false;
+                }
+                return true;
+            }
+
+            // 倒计时更新函数
+            function updateCountdown() {
+                const now = new Date();
+                const timeDiff = contestStartTime - now;
+                
+                if (timeDiff <= 0) {
+                    countdownElement.textContent = "比赛已开始！";
+                    contestLink.classList.remove('disabled-link');
+                    contestLink.onclick = null; // 移除点击检查
+                    return;
+                }
+                
+                // 计算剩余时间
+                const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+                
+                // 更新倒计时显示
+                countdownElement.textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+
+            // 初始化链接状态
+            const now = new Date();
+            if (now < contestStartTime) {
+                contestLink.classList.add('disabled-link');
             } else {
-                loginModal.classList.add('active');
-                if(container) container.classList.add('blur-content');
+                contestLink.classList.remove('disabled-link');
             }
             
-            // 登录表单提交
-            loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const enteredCode = inviteCodeInput.value.trim();
-                
-                // 直接验证（简化版，实际使用XML验证）
-                /*
-                if(enteredCode === "123") {
-                    localStorage.setItem('notebookLoggedIn', 'true');
-                    loginModal.classList.remove('active');
-                    if(container) container.classList.remove('blur-content');
-                    
-                    // 清除状态
-                    errorMessage.style.display = 'none';
-                    inviteCodeInput.value = '';
-                } else {
-                    errorMessage.style.display = 'block';
-                    inviteCodeInput.focus();
-                }*/
-                
-                //如果要使用XML验证，替换上面的if语句为：
-                const xhr = new XMLHttpRequest();
-                xhr.open('GET', 'invite_codes.xml', true);
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4) {
-                        if (xhr.status === 200) {
-                            try {
-                                const parser = new DOMParser();
-                                const xmlDoc = parser.parseFromString(xhr.responseText, "text/xml");
-                                const validCode = xmlDoc.getElementsByTagName("code")[0].textContent;
-                                
-                                if (enteredCode === validCode) {
-                                    localStorage.setItem('notebookLoggedIn', 'true');
-                                    loginModal.classList.remove('active');
-                                    if(container) container.classList.remove('blur-content');
-                                    errorMessage.style.display = 'none';
-                                    inviteCodeInput.value = '';
-                                } else {
-                                    errorMessage.style.display = 'block';
-                                    inviteCodeInput.focus();
-                                }
-                            } catch(e) {
-                                errorMessage.style.display = 'block';
-                                inviteCodeInput.focus();
-                            }
-                        } else {
-                            errorMessage.style.display = 'block';
-                            inviteCodeInput.focus();
-                        }
-                    }
-                };
-                xhr.send();
-            });
-            // 复制代码功能
-            document.querySelectorAll('.copy-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    const codeBlock = this.closest('.code-block');
-                    const code = codeBlock.querySelector('pre') ? codeBlock.querySelector('pre').innerText : 
-                                codeBlock.innerText.replace(/复制代码/g, '').trim();
-                    
-                    navigator.clipboard.writeText(code).then(() => {
-                        const originalText = this.textContent;
-                        this.textContent = '已复制!';
-                        
-                        setTimeout(() => {
-                            this.textContent = originalText;
-                        }, 2000);
-                    });
-                });
-            });
+            // 启动倒计时定时器
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
             
             // 为目录项添加悬停效果
             const courseLinks = document.querySelectorAll('.course-list a');
