@@ -689,6 +689,14 @@
                         <span>前往题目地址</span>
                         <span class="disabled-overlay">比赛尚未开始</span>
                     </a>
+                    <a href="https://hydro.ac/d/center/contest/6884ded95a9142afe0fadcce" 
+                    id="contest-link2" 
+                    class="full-width-link disabled-link" 
+                    onclick="return checkContestTime(event)">
+                        <i class="fas fa-external-link-alt"></i> 
+                        <span>前往题目地址</span>
+                        <span class="disabled-overlay">比赛尚未开始</span>
+                    </a>
                 </div>
             </main>
         </div>
@@ -704,6 +712,7 @@
             const contestStartTime = new Date('2025-07-26T18:00:00');
             const contestLink = document.getElementById('contest-link');
             const countdownElement = document.getElementById('countdown');
+            const contestLink2 = document.getElementById('contest-link2');
             
             // 检查比赛时间函数
             function checkContestTime(event) {
@@ -725,6 +734,8 @@
                     countdownElement.textContent = "比赛已开始！";
                     contestLink.classList.remove('disabled-link');
                     contestLink.onclick = null; // 移除点击检查
+                    contestLink2.classList.remove('disabled-link');
+                    contestLink2.onclick = null; // 移除点击检查
                     return;
                 }
                 
@@ -742,8 +753,10 @@
             const now = new Date();
             if (now < contestStartTime) {
                 contestLink.classList.add('disabled-link');
+                contestLink2.classList.add('disabled-link');
             } else {
                 contestLink.classList.remove('disabled-link');
+                contestLink2.classList.remove('disabled-link');
             }
             
             // 启动倒计时定时器
