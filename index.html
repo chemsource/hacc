@@ -705,7 +705,7 @@
         window.addEventListener('DOMContentLoaded', function() {
             // 设置比赛开始时间（2025年7月26日18:00:00）
             const contestStartTime = new Date('2025-07-28T18:00:00');
-            const contestLink = document.getElementById('contest-link');
+            //const contestLink = document.getElementById('contest-link');
             const countdownElement = document.getElementById('countdown');
             const contestLink2 = document.getElementById('contest-link2');
             
@@ -727,8 +727,8 @@
                 
                 if (timeDiff <= 0) {
                     countdownElement.textContent = "比赛已开始！";
-                    contestLink.classList.remove('disabled-link');
-                    contestLink.onclick = null; // 移除点击检查
+                    //contestLink.classList.remove('disabled-link');
+                    //contestLink.onclick = null; // 移除点击检查
                     contestLink2.classList.remove('disabled-link');
                     contestLink2.onclick = null; // 移除点击检查
                     return;
@@ -747,10 +747,10 @@
             // 初始化链接状态
             const now = new Date();
             if (now < contestStartTime) {
-                contestLink.classList.add('disabled-link');
+                //contestLink.classList.add('disabled-link');
                 contestLink2.classList.add('disabled-link');
             } else {
-                contestLink.classList.remove('disabled-link');
+                //contestLink.classList.remove('disabled-link');
                 contestLink2.classList.remove('disabled-link');
             }
             
