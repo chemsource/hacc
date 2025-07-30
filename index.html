@@ -728,6 +728,26 @@
                         <span class="disabled-overlay">比赛尚未开始</span>
                     </a>
                 </div>
+                <div class="note-content">
+                    <h2><i class="fab fa-a301"></i> H.A.C.C 2025.8 Round 1 C组</h2>
+                    <div class="date">2025年8月2日</div>
+                    <p>倒计时: <span id="countdownc">00:00:00</span></p>
+                    
+                    <!-- 添加比赛状态提示 -->
+                    <div id="contest-status">
+                        <p><i class="fas fa-clock"></i> 比赛将于 <strong>2025年8月2日18:00:00</strong> 开始</p>
+                    </div>
+                    
+                    <!-- 修改链接添加ID和点击事件 -->
+                    <a href="https://docs.qq.com/doc/p/d5e1136527f0ee485fe92a428027b579a66fd7cc" 
+                    id="contest-link-C" 
+                    class="full-width-link disabled-link" 
+                    onclick="return checkContestTime(event)">
+                        <i class="fas fa-external-link-alt"></i> 
+                        <span>前往查看题面</span>
+                        <span class="disabled-overlay">比赛尚未开始</span>
+                    </a>
+                </div>
             </main>
         </div>
         
@@ -742,7 +762,9 @@
             const contestStartTime = new Date('2025-08-02T18:00:00');
             const contestLink = document.getElementById('contest-link');
             const countdownElement = document.getElementById('countdown');
+            const countdownElementc = document.getElementById('countdownc');
             const contestLink2 = document.getElementById('contest-link2');
+            const contestLinkc = document.getElementById('contest-link-C');
             
             // 检查比赛时间函数
             function checkContestTime(event) {
@@ -762,10 +784,13 @@
                 
                 if (timeDiff <= 0) {
                     countdownElement.textContent = "比赛已开始！";
+                    countdownElementc.textContent = "比赛已开始！";
                     contestLink.classList.remove('disabled-link');
                     contestLink.onclick = null; // 移除点击检查
                     contestLink2.classList.remove('disabled-link');
                     contestLink2.onclick = null; // 移除点击检查
+                    contestLinkc.classList.remove('disabled-link');
+                    contestLinkc.onclick = null; // 移除点击检查
                     return;
                 }
                 
@@ -777,6 +802,8 @@
                 // 更新倒计时显示
                 countdownElement.textContent = 
                     `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                countdownElementc.textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }
 
             // 初始化链接状态
@@ -784,9 +811,11 @@
             if (now < contestStartTime) {
                 contestLink.classList.add('disabled-link');
                 contestLink2.classList.add('disabled-link');
+                contestLinkc.classList.add('disabled-link');
             } else {
                 contestLink.classList.remove('disabled-link');
                 contestLink2.classList.remove('disabled-link');
+                contestLinkc.classList.remove('disabled-link');
             }
             
             // 启动倒计时定时器
