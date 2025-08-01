@@ -758,7 +758,7 @@
 
                 <!-- 修改第四个比赛 -->
                 <div class="note-content">
-                    <h2><i class="fab fa-a301"></i> H.A.C.C 2025.8 Ext1 Lqc</h2>
+                    <h2><i class="fab fa-a301"></i> H.A.C.C 2025.8 Ext1 蓝桥青少省赛特别赛</h2>
                     <div class="date">2025年8月2日</div>
                     <div id="contest-status">
                         <p><i class="fas fa-clock"></i> 比赛将于 <strong>2025年8月2日18:00:00</strong> 开始</p>
@@ -817,7 +817,7 @@
             event.stopPropagation(); // 阻止事件冒泡
             
             const contestId = element.getAttribute('data-contest-id');
-            const startTime = new Date('2025-08-01T18:00:00');
+            const startTime = new Date('2025-08-02T18:00:00');
             const now = new Date();
             
             if (now < startTime) {
@@ -850,7 +850,7 @@
             // 预先加载文档URL
             loadContestDocUrls().catch(console.error);
             
-            const contestStartTime = new Date('2025-08-01T18:00:00');
+            const contestStartTime = new Date('2025-08-02T18:00:00');
 
             const countdownElement = document.getElementById('countdown');
             const countdownElementc = document.getElementById('countdownc');
