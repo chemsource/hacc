@@ -620,6 +620,12 @@
             font-size: 1.2rem;
         }
 
+        #countdown4 {
+            font-weight: bold;
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+        }
+
         /* 禁用链接样式 */
         .disabled-link {
             opacity: 0.6;
@@ -697,7 +703,6 @@
                 <div class="note-content">
                     <h2><i class="fab fa-a301"></i> H.A.C.C 2025.8 Round 2 A组</h2>
                     <div class="date">2025年8月2日</div>
-                    
                     <div id="contest-status">
                         <p>
                             H.A.C.C 出题通知：<br/>
@@ -715,10 +720,7 @@
                         <p><i class="fas fa-clock"></i> 比赛将于 <strong>2025年8月2日18:00:00</strong> 开始</p>
                         <p>倒计时: <span id="countdown">00:00:00</span></p>
                     </div>
-                    
-                    <!-- 修改链接：添加data-contest-id属性 -->
-                    <a href="#" 
-                       data-contest-id="contest2" 
+                    <a data-contest-id="contest2" 
                        id="contest-link" 
                        class="full-width-link disabled-link" 
                        onclick="openContestDoc(event, this)">
@@ -740,16 +742,30 @@
                 <div class="note-content">
                     <h2><i class="fab fa-a301"></i> H.A.C.C 2025.8 Round 1 C组</h2>
                     <div class="date">2025年8月2日</div>
-                    
                     <div id="contest-status">
                         <p><i class="fas fa-clock"></i> 比赛将于 <strong>2025年8月2日18:00:00</strong> 开始</p>
                         <p>倒计时: <span id="countdownc">00:00:00</span></p>
                     </div>
-                    
-                    <!-- 修改链接：添加data-contest-id属性 -->
-                    <a href="#" 
-                       data-contest-id="contest3" 
+                    <a data-contest-id="contest3" 
                        id="contest-link-C" 
+                       class="full-width-link disabled-link" 
+                       onclick="openContestDoc(event, this)">
+                        <i class="fas fa-external-link-alt"></i> 
+                        <span>前往查看题面</span>
+                        <span class="disabled-overlay">比赛尚未开始</span>
+                    </a>
+                </div>
+
+                <!-- 修改第四个比赛 -->
+                <div class="note-content">
+                    <h2><i class="fab fa-a301"></i> H.A.C.C 2025.8 Ext1 Lqc</h2>
+                    <div class="date">2025年8月2日</div>
+                    <div id="contest-status">
+                        <p><i class="fas fa-clock"></i> 比赛将于 <strong>2025年8月2日18:00:00</strong> 开始</p>
+                        <p>倒计时: <span id="countdown4">00:00:00</span></p>
+                    </div>
+                    <a data-contest-id="contest4" 
+                       id="contest-link-4" 
                        class="full-width-link disabled-link" 
                        onclick="openContestDoc(event, this)">
                         <i class="fas fa-external-link-alt"></i> 
@@ -795,11 +811,13 @@
             });
         }
         
-        // 打开文档函数
+        // 打开文档函数（修复后）
         function openContestDoc(event, element) {
-            event.preventDefault();
+            event.preventDefault(); // 阻止默认行为
+            event.stopPropagation(); // 阻止事件冒泡
+            
             const contestId = element.getAttribute('data-contest-id');
-            const startTime = new Date('2025-08-02T18:00:00');
+            const startTime = new Date('2025-08-01T18:00:00');
             const now = new Date();
             
             if (now < startTime) {
@@ -810,12 +828,20 @@
             // 确保XML已加载
             if (Object.keys(contestDocUrls).length === 0) {
                 loadContestDocUrls().then(() => {
-                    window.location.href = contestDocUrls[contestId];
+                    if (contestDocUrls[contestId]) {
+                        window.location.href = contestDocUrls[contestId];
+                    } else {
+                        alert('比赛题面链接不存在，请联系管理员');
+                    }
                 }).catch(() => {
                     alert('获取比赛题面失败，请刷新页面重试');
                 });
             } else {
-                window.location.href = contestDocUrls[contestId];
+                if (contestDocUrls[contestId]) {
+                    window.location.href = contestDocUrls[contestId];
+                } else {
+                    alert('比赛题面链接不存在，请联系管理员');
+                }
             }
         }
 
@@ -824,19 +850,23 @@
             // 预先加载文档URL
             loadContestDocUrls().catch(console.error);
             
-            const contestStartTime = new Date('2025-08-02T18:00:00');
-            const contestLink = document.getElementById('contest-link');
+            const contestStartTime = new Date('2025-08-01T18:00:00');
+
             const countdownElement = document.getElementById('countdown');
             const countdownElementc = document.getElementById('countdownc');
+            const countdownElement4 = document.getElementById('countdown4');
+
+            const contestLink = document.getElementById('contest-link');
             const contestLink2 = document.getElementById('contest-link2');
             const contestLinkc = document.getElementById('contest-link-C');
+            const contestLink4 = document.getElementById('contest-link-4');
             
             // 检查比赛时间函数
             function checkContestTime(event) {
                 const now = new Date();
                 if (now < contestStartTime) {
                     alert("比赛尚未开始，请等待！");
-                    event.preventDefault(); // 阻止链接跳转
+                    event.preventDefault();
                     return false;
                 }
                 return true;
@@ -850,12 +880,12 @@
                 if (timeDiff <= 0) {
                     countdownElement.textContent = "比赛已开始！";
                     countdownElementc.textContent = "比赛已开始！";
+                    countdownElement4.textContent = "比赛已开始！";
+
                     contestLink.classList.remove('disabled-link');
-                    contestLink.onclick = null; // 移除点击检查
                     contestLink2.classList.remove('disabled-link');
-                    contestLink2.onclick = null; // 移除点击检查
                     contestLinkc.classList.remove('disabled-link');
-                    contestLinkc.onclick = null; // 移除点击检查
+                    contestLink4.classList.remove('disabled-link');
                     return;
                 }
                 
@@ -869,6 +899,8 @@
                     `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 countdownElementc.textContent = 
                     `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                countdownElement4.textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }
 
             // 初始化链接状态
@@ -877,10 +909,12 @@
                 contestLink.classList.add('disabled-link');
                 contestLink2.classList.add('disabled-link');
                 contestLinkc.classList.add('disabled-link');
+                contestLink4.classList.add('disabled-link');
             } else {
                 contestLink.classList.remove('disabled-link');
                 contestLink2.classList.remove('disabled-link');
                 contestLinkc.classList.remove('disabled-link');
+                contestLink4.classList.remove('disabled-link');
             }
             
             // 启动倒计时定时器
