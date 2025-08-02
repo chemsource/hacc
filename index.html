@@ -685,12 +685,12 @@
                     <div class="date">2025年8月2日</div>
                     <div id="contest-status">
                         <p>
-                            <strong>已开始比赛:</strong>
-                            H.A.C.C 2025.7 Round 1 A组
-                            <strong>待开始比赛:</strong>
-                            H.A.C.C 2025.8 Round 2 A组
-                            H.A.C.C 2025.8 Round 1 C组
-                            H.A.C.C 20253.8 Ext 1 蓝桥青少省赛特别赛
+                            <strong>已开始比赛:</strong><br/>
+                            H.A.C.C 2025.7 Round 1 A组<br/>
+                            <strong>待开始比赛:</strong><br/>
+                            H.A.C.C 2025.8 Round 2 A组<br/>
+                            H.A.C.C 2025.8 Round 1 C组<br/>
+                            H.A.C.C 20253.8 Ext 1 蓝桥青少省赛特别赛<br/>
                         </p>
                         <p><i class="fas fa-clock"></i> 待开始比赛将于 <strong>2025年8月2日18:00:00</strong> 开始</p>
                         <p>倒计时: <span id="countdown">00:00:00</span></p>
@@ -706,96 +706,9 @@
     </div>
 
     <script>
-        // 全局存储文档URL
-        const contestDocUrls = {};
-        
-        // 加载XML配置
-        function loadContestDocUrls() {
-            return new Promise((resolve, reject) => {
-                const xhr = new XMLHttpRequest();
-                xhr.open('GET', './conf.xml', true);
-                xhr.overrideMimeType('text/xml');
-                xhr.onload = function() {
-                    if (xhr.status === 200) {
-                        const xmlDoc = xhr.responseXML;
-                        const contests = xmlDoc.getElementsByTagName('contest');
-                        for (let i = 0; i < contests.length; i++) {
-                            const contest = contests[i];
-                            const id = contest.getAttribute('id');
-                            const docUrl = contest.getElementsByTagName('docUrl')[0].textContent;
-                            contestDocUrls[id] = docUrl;
-                        }
-                        resolve();
-                    } else {
-                        reject('Failed to load contest URLs');
-                    }
-                };
-                xhr.onerror = reject;
-                xhr.send();
-            });
-        }
-        
-        // 打开文档函数（修复后）
-        function openContestDoc(event, element) {
-            event.preventDefault(); // 阻止默认行为
-            event.stopPropagation(); // 阻止事件冒泡
-            
-            const contestId = element.getAttribute('data-contest-id');
-            const startTime = new Date('2025-08-02T18:00:00');
-            const now = new Date();
-            
-            if (now < startTime) {
-                alert("比赛尚未开始，请等待！");
-                return;
-            }
-            
-            // 确保XML已加载
-            if (Object.keys(contestDocUrls).length === 0) {
-                loadContestDocUrls().then(() => {
-                    if (contestDocUrls[contestId]) {
-                        window.location.href = contestDocUrls[contestId];
-                    } else {
-                        alert('比赛题面链接不存在，请联系管理员');
-                    }
-                }).catch(() => {
-                    alert('获取比赛题面失败，请刷新页面重试');
-                });
-            } else {
-                if (contestDocUrls[contestId]) {
-                    window.location.href = contestDocUrls[contestId];
-                } else {
-                    alert('比赛题面链接不存在，请联系管理员');
-                }
-            }
-        }
-
-        // 页面加载完成后执行
         window.addEventListener('DOMContentLoaded', function() {
-            // 预先加载文档URL
-            loadContestDocUrls().catch(console.error);
-            
             const contestStartTime = new Date('2025-08-02T18:00:00');
-
             const countdownElement = document.getElementById('countdown');
-            const countdownElementc = document.getElementById('countdownc');
-            const countdownElement4 = document.getElementById('countdown4');
-
-            const contestLink = document.getElementById('contest-link');
-            const contestLink2 = document.getElementById('contest-link2');
-            const contestLinkc = document.getElementById('contest-link-C');
-            const contestLink4 = document.getElementById('contest-link-4');
-            
-            // 检查比赛时间函数
-            function checkContestTime(event) {
-                const now = new Date();
-                if (now < contestStartTime) {
-                    alert("比赛尚未开始，请等待！");
-                    event.preventDefault();
-                    return false;
-                }
-                return true;
-            }
-
             // 倒计时更新函数
             function updateCountdown() {
                 const now = new Date();
@@ -803,13 +716,6 @@
                 
                 if (timeDiff <= 0) {
                     countdownElement.textContent = "比赛已开始！";
-                    countdownElementc.textContent = "比赛已开始！";
-                    countdownElement4.textContent = "比赛已开始！";
-
-                    contestLink.classList.remove('disabled-link');
-                    contestLink2.classList.remove('disabled-link');
-                    contestLinkc.classList.remove('disabled-link');
-                    contestLink4.classList.remove('disabled-link');
                     return;
                 }
                 
@@ -821,25 +727,21 @@
                 // 更新倒计时显示
                 countdownElement.textContent = 
                     `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                countdownElementc.textContent = 
-                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                countdownElement4.textContent = 
-                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }
 
             // 初始化链接状态
-            const now = new Date();
-            if (now < contestStartTime) {
-                contestLink.classList.add('disabled-link');
-                contestLink2.classList.add('disabled-link');
-                contestLinkc.classList.add('disabled-link');
-                contestLink4.classList.add('disabled-link');
-            } else {
-                contestLink.classList.remove('disabled-link');
-                contestLink2.classList.remove('disabled-link');
-                contestLinkc.classList.remove('disabled-link');
-                contestLink4.classList.remove('disabled-link');
-            }
+            // const now = new Date();
+            // if (now < contestStartTime) {
+            //     contestLink.classList.add('disabled-link');
+            //     contestLink2.classList.add('disabled-link');
+            //     contestLinkc.classList.add('disabled-link');
+            //     contestLink4.classList.add('disabled-link');
+            // } else {
+            //     contestLink.classList.remove('disabled-link');
+            //     contestLink2.classList.remove('disabled-link');
+            //     contestLinkc.classList.remove('disabled-link');
+            //     contestLink4.classList.remove('disabled-link');
+            // }
             
             // 启动倒计时定时器
             updateCountdown();
@@ -861,3 +763,4 @@
 </body>
 
 </html>
+
