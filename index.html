@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>H.A.C.C Test</title>
+    <title>H.A.C.C 比赛发布页</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -672,106 +672,30 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-book-open"></i> H.A.C.C比赛</h1>
+            <h1><i class="fas fa-book-open"></i> H.A.C.C比赛 发布页</h1>
             <p class="subtitle">
-                H.A.C.C 核桃编程竞赛班编码竞赛<br/>
-                来自核桃编程学员和老师的精心组织和策划，拥有者更加贴近学生情况的题目，还有来自同学之间的互帮互助，增进感情又共同进步
+                此页面用于发布比赛通知
             </p>
         </header>
         
         <div class="main-content">
             <main class="notes-container">
                 <div class="note-content">
-                    <h2><i class="fab fa-a301"></i> H.A.C.C 2025.7 Round 1 A组</h2>
-                    <div class="date">2025年7月28日</div>
-                    
-                    <!-- 添加比赛状态提示 -->
-                    <div id="contest-status">
-                        <p><i class="fas fa-clock"></i> 比赛已于 <strong>2025年7月28日18:00:00</strong> 开始</p>
-                    </div>
-                    
-                    <!-- 修改链接添加ID和点击事件 -->
-                    <a href="https://docs.qq.com/doc/p/c62489d887c6ed67b1f7a4279d843514d48285f8" >
-                        前往查看题面
-                    </a>
-                    <a href="https://hydro.ac/d/center/contest/6886ce0088d2d7285ccd9484" >
-                        前往HydroOJ作答提交
-                    </a>
-                </div>
-                
-                <!-- 修改第二个比赛 -->
-                <div class="note-content">
-                    <h2><i class="fab fa-a301"></i> H.A.C.C 2025.8 Round 2 A组</h2>
+                    <h2><i class="fab fa-a301"></i> H.A.C.C 2025.8</h2>
                     <div class="date">2025年8月2日</div>
                     <div id="contest-status">
                         <p>
-                            H.A.C.C 出题通知：<br/>
-                            H.A.C.C 2025.8 Round 2 A组周赛已经开始出题了，以下是比赛难度<br/>
-                            1.笔试部分<br/>
-                            CSP-J题目 50%<br/>
-                            GESP4~8级 30%<br/>
-                            其余 20%<br/>
-                            2. 机试部分<br/>
-                            1.普及-  CSP-J第一题<br/>
-                            2.普及-  GESP6级真题<br/>
-                            3.普及/提高- 原创题<br/>
-                            4.普及/提高- CSP-J第二题<br/>
+                            <strong>已开始比赛:</strong>
+                            H.A.C.C 2025.7 Round 1 A组
+                            <strong>待开始比赛:</strong>
+                            H.A.C.C 2025.8 Round 2 A组
+                            H.A.C.C 2025.8 Round 1 C组
+                            H.A.C.C 20253.8 Ext 1 蓝桥青少省赛特别赛
                         </p>
-                        <p><i class="fas fa-clock"></i> 比赛将于 <strong>2025年8月2日18:00:00</strong> 开始</p>
+                        <p><i class="fas fa-clock"></i> 待开始比赛将于 <strong>2025年8月2日18:00:00</strong> 开始</p>
                         <p>倒计时: <span id="countdown">00:00:00</span></p>
+                        <a href="https://haccsite.github.io/">前往比赛页面</a>
                     </div>
-                    <a data-contest-id="contest2" 
-                       id="contest-link" 
-                       class="full-width-link disabled-link" 
-                       onclick="openContestDoc(event, this)">
-                        <i class="fas fa-external-link-alt"></i> 
-                        <span>前往查看题面</span>
-                        <span class="disabled-overlay">比赛尚未开始</span>
-                    </a>
-                    <a href="https://hydro.ac/d/center/contest/6889b08a959c0349f82b8306" 
-                       id="contest-link2" 
-                       class="full-width-link disabled-link" 
-                       onclick="return checkContestTime(event)">
-                        <i class="fas fa-external-link-alt"></i> 
-                        <span>前往提交评测（题目不全）</span>
-                        <span class="disabled-overlay">比赛尚未开始</span>
-                    </a>
-                </div>
-                
-                <!-- 修改第三个比赛 -->
-                <div class="note-content">
-                    <h2><i class="fab fa-a301"></i> H.A.C.C 2025.8 Round 1 C组</h2>
-                    <div class="date">2025年8月2日</div>
-                    <div id="contest-status">
-                        <p><i class="fas fa-clock"></i> 比赛将于 <strong>2025年8月2日18:00:00</strong> 开始</p>
-                        <p>倒计时: <span id="countdownc">00:00:00</span></p>
-                    </div>
-                    <a data-contest-id="contest3" 
-                       id="contest-link-C" 
-                       class="full-width-link disabled-link" 
-                       onclick="openContestDoc(event, this)">
-                        <i class="fas fa-external-link-alt"></i> 
-                        <span>前往查看题面</span>
-                        <span class="disabled-overlay">比赛尚未开始</span>
-                    </a>
-                </div>
-
-                <!-- 修改第四个比赛 -->
-                <div class="note-content">
-                    <h2><i class="fab fa-a301"></i> H.A.C.C 2025.8 Ext1 蓝桥青少省赛特别赛</h2>
-                    <div class="date">2025年8月2日</div>
-                    <div id="contest-status">
-                        <p><i class="fas fa-clock"></i> 比赛将于 <strong>2025年8月2日18:00:00</strong> 开始</p>
-                        <p>倒计时: <span id="countdown4">00:00:00</span></p>
-                    </div>
-                    <a data-contest-id="contest4" 
-                       id="contest-link-4" 
-                       class="full-width-link disabled-link" 
-                       onclick="openContestDoc(event, this)">
-                        <i class="fas fa-external-link-alt"></i> 
-                        <span>前往查看题面</span>
-                        <span class="disabled-overlay">比赛尚未开始</span>
-                    </a>
                 </div>
             </main>
         </div>
@@ -935,4 +859,5 @@
         });
     </script>
 </body>
+
 </html>
