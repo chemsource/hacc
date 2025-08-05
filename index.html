@@ -685,15 +685,13 @@
                     <div class="date">2025年8月2日</div>
                     <div id="contest-status">
                         <p>
-                            <strong>已开始比赛:</strong><br/>
-                            H.A.C.C 2025.7 Round 1 A组<br/>
-                            <strong>待开始比赛:</strong><br/>
+                            已经结束比赛:<br/>
+                            H.A.C.C 2025.7 Round 1 A组<br/><br/>
+                            正在进行的比赛:<br/>
                             H.A.C.C 2025.8 Round 2 A组<br/>
                             H.A.C.C 2025.8 Round 1 C组<br/>
                             H.A.C.C 2025.8 Ext 1 蓝桥青少省赛特别赛<br/>
                         </p>
-                        <p><i class="fas fa-clock"></i> 待开始比赛将于 <strong>2025年8月2日18:00:00</strong> 开始</p>
-                        <p>倒计时: <span id="countdown">00:00:00</span></p>
                         <a href="https://haccsite.github.io/">前往比赛页面</a>
                     </div>
                 </div>
@@ -704,64 +702,6 @@
             <p>© 2025 H.A.C.C</p>
         </footer>
     </div>
-
-    <script>
-        window.addEventListener('DOMContentLoaded', function() {
-            const contestStartTime = new Date('2025-08-02T18:00:00');
-            const countdownElement = document.getElementById('countdown');
-            // 倒计时更新函数
-            function updateCountdown() {
-                const now = new Date();
-                const timeDiff = contestStartTime - now;
-                
-                if (timeDiff <= 0) {
-                    countdownElement.textContent = "比赛已开始！";
-                    return;
-                }
-                
-                // 计算剩余时间
-                const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-                
-                // 更新倒计时显示
-                countdownElement.textContent = 
-                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            }
-
-            // 初始化链接状态
-            // const now = new Date();
-            // if (now < contestStartTime) {
-            //     contestLink.classList.add('disabled-link');
-            //     contestLink2.classList.add('disabled-link');
-            //     contestLinkc.classList.add('disabled-link');
-            //     contestLink4.classList.add('disabled-link');
-            // } else {
-            //     contestLink.classList.remove('disabled-link');
-            //     contestLink2.classList.remove('disabled-link');
-            //     contestLinkc.classList.remove('disabled-link');
-            //     contestLink4.classList.remove('disabled-link');
-            // }
-            
-            // 启动倒计时定时器
-            updateCountdown();
-            setInterval(updateCountdown, 1000);
-            
-            // 为目录项添加悬停效果
-            const courseLinks = document.querySelectorAll('.course-list a');
-            courseLinks.forEach(link => {
-                link.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateX(5px)';
-                });
-                
-                link.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateX(0)';
-                });
-            });
-        });
-    </script>
 </body>
 
 </html>
-
-
